@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        var ws;
+        var target = "ws:localhost/echo";
+        function subOpen() {
+            if ('WebSocket' in window) {
+                ws = new WebSocket(target);
+            } else if ('MozWebSocket' in window) {
+                ws = new MozWebSocket(target);
+            } else {
+                alert('WebSocket is not supported by this browser.');
+                return;
+            }
+            ws.onmessage=function(e){
+                document.getElementById("show").innerHTML=e.data;
+            }
+        }
+        function subSend(){
+            var msg = document.getElementById("msg").value;
+            ws.send(msg);
+            document.getElementById("msg").value="";
+        }
+
+    </script>
+</head>
+<body>
+    <input type="button" onclick="subOpen();" value="open" />
+    <input id="msg" />
+    <input type="button" onclick="subSend();" value="send" />
+    <hr>
+    <div id="show"></div>
+</body>
+</html>
